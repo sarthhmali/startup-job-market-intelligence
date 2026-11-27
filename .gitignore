@@ -1,0 +1,13 @@
+# Power BI temporary/backup files
+*.tmp
+*.bak
+~$*
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/

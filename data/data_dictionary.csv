@@ -1,0 +1,15 @@
+file,column,description,data_type
+job_postings.csv,job_id,Unique simulated job identifier,Text
+job_postings.csv,company,Simulated startup name,Text
+job_postings.csv,job_title,Role title,Text
+job_postings.csv,department,Functional department,Text
+job_postings.csv,location,India city/remote category,Text
+job_postings.csv,work_mode,"On-site, Hybrid, or Remote",Text
+job_postings.csv,employment_type,"Full-time, Internship, or Contract",Text
+job_postings.csv,experience_level,"Intern, Fresher, Junior, Mid-level, Senior",Text
+job_postings.csv,min_experience_years,Minimum experience represented by the record,Integer
+job_postings.csv,salary_lpa,Simulated annual compensation in INR lakh per annum,Decimal
+job_postings.csv,posted_date,Simulated posting date,Date
+job_postings.csv,is_entry_level,True for Intern/Fresher/Junior,Boolean
+job_skills.csv,job_id,Foreign key to job_postings.job_id,Text
+job_skills.csv,skill,One skill associated with a posting,Text

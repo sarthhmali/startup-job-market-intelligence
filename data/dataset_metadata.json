@@ -1,0 +1,14 @@
+{
+  "dataset_type": "synthetic_simulated",
+  "generated_for": "Startup Job Market & Skill Demand Intelligence portfolio project",
+  "seed": 42,
+  "job_postings_rows": 1200,
+  "job_skills_rows": 8988,
+  "date_range": [
+    "2025-01-03",
+    "2026-10-22"
+  ],
+  "currency": "INR",
+  "salary_unit": "LPA",
+  "warning": "Not real job postings, companies, salaries, or market research."
+}
