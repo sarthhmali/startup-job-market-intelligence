@@ -1,103 +1,149 @@
 # Startup Job Market & Skill Demand Intelligence
 
-**Tools:** PostgreSQL, SQL, Power BI  
-**Project type:** End-to-end analytics portfolio project  
-**Dataset:** 1,200 simulated startup job postings + a normalized job-to-skill table
+An end-to-end data analytics project that explores startup hiring trends, technical skill demand, entry-level opportunities, and salary patterns using PostgreSQL, SQL, and Power BI.
 
-> **Important data note:** This repository uses a synthetic (simulated) dataset created for portfolio demonstration and reproducibility. Company names, job postings, dates, and salaries are not real market observations. Do not describe the results as a survey of actual employers. The analysis demonstrates a repeatable workflow that can be applied to a licensed/public real-world dataset.
+## Project Overview
 
-## 1. Business problem
+The technology job market is constantly evolving. Understanding which technical skills companies look for, what experience they expect, and where opportunities are concentrated can help job seekers make better career decisions.
 
-Early-career candidates often struggle to decide which technical skills to prioritize. Startup job descriptions contain signals about role demand, experience expectations, work arrangements, and compensation, but these signals are difficult to compare manually.
+This project analyzes a dataset of **1,200 simulated startup job postings** to uncover patterns in job demand, technical skills, experience requirements, salary distributions, and work arrangements.
 
-This project builds a small job-market intelligence model to answer:
+The goal is to transform raw job-posting data into meaningful insights through SQL analysis and interactive Power BI dashboards.
 
-1. Which job titles and technical skills appear most often?
-2. What share of postings are entry-level?
-3. Which skills are common in entry-level postings?
-4. How do salary bands vary by role, experience level, and location?
-5. Which cities and work modes have the highest posting volume?
-6. Which combinations of skills frequently appear together?
+## Business Objectives
 
-## 2. Repository structure
+- Identify the most frequently advertised job roles across startups.
+- Discover the most in-demand technical skills.
+- Analyze entry-level and fresher hiring opportunities.
+- Understand experience requirements across different job roles.
+- Compare salary distributions across roles and experience levels.
+- Explore job opportunities across different Indian cities.
+- Analyze remote, hybrid, and on-site work arrangements.
+- Identify technical skills that frequently appear together.
+
+## Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| PostgreSQL | Relational database management |
+| SQL | Data cleaning, exploration, and analysis |
+| Power BI | Interactive dashboards and visualization |
+| CSV | Dataset storage and data exchange |
+
+## Dataset
+
+The project contains two primary datasets:
+
+**1. Job Postings (`job_postings.csv`)**
+
+Contains 1,200 simulated job records with information such as:
+
+- Job ID and company
+- Job title and department
+- Location and work mode
+- Employment type
+- Experience level and minimum experience
+- Salary in INR (LPA)
+- Posting date
+- Entry-level classification
+
+**2. Job Skills (`job_skills.csv`)**
+
+Contains job-to-skill relationships, connecting individual job postings with the technical and professional skills associated with them.
+
+The datasets are structured relationally to support accurate SQL joins and skill-level analysis.
+
+## SQL Analysis
+
+PostgreSQL is used to perform business-oriented analysis through:
+
+- Data quality checks and validation
+- Joins and aggregations
+- Common Table Expressions (CTEs)
+- Window functions and ranking
+- Conditional aggregation
+- Salary analysis using average and median
+- Skill frequency and demand analysis
+- Location-wise and experience-wise comparisons
+- SQL views for Power BI reporting
+
+## Power BI Dashboard
+
+The analysis is organized into three dashboard sections:
+
+### 1. Market Overview
+- Total job postings
+- Entry-level hiring percentage
+- Most frequently advertised job roles
+- Job distribution across locations
+- Work-mode distribution
+
+### 2. Skills Intelligence
+- Most frequently mentioned technical skills
+- Entry-level skill demand
+- Skill distribution across job roles
+- Frequently co-occurring skills
+
+### 3. Compensation & Geography
+- Average and median salary by experience level
+- Salary comparison across job roles
+- Location-wise job distribution
+- Work-mode analysis across locations
+
+## Key Business Questions
+
+This project focuses on answering practical questions:
+
+1. Which technical skills appear most frequently in startup job descriptions?
+2. How many opportunities are available for entry-level candidates?
+3. Which job roles have a higher proportion of fresher opportunities?
+4. How does salary change with experience?
+5. Which locations have the highest number of job postings?
+6. What skills are commonly requested together?
+7. Which work arrangement is most common across different experience levels?
+
+## Project Structure
 
 ```text
 startup-job-market-intelligence/
+│
 ├── data/
 │   ├── job_postings.csv
 │   ├── job_skills.csv
 │   └── data_dictionary.csv
+│
 ├── sql/
 │   ├── 01_schema_and_load.sql
 │   ├── 02_data_quality_checks.sql
 │   ├── 03_business_analysis.sql
 │   └── 04_powerbi_views.sql
+│
 ├── powerbi/
 │   └── dashboard_build_guide.md
+│
 ├── docs/
 │   └── insights_template.md
-├── .gitignore
+│
 ├── LICENSE
 └── README.md
 ```
 
-## 3. Data model
+## Project Outcome
 
-- `job_postings`: one row per posting; primary key is `job_id`.
-- `job_skills`: one row per job-skill relationship; composite primary key `(job_id, skill)`; `job_id` references `job_postings`.
+The project demonstrates how raw job-posting data can be transformed into structured information for business analysis.
 
-This is a one-to-many relationship from job postings to skills. Keeping skills in a separate table avoids storing comma-separated skill lists and makes skill-level analysis reliable.
+It combines database design, SQL querying, analytical thinking, and data visualization to explore hiring patterns and technical skill requirements.
 
-## 4. How to run in PostgreSQL
+It also demonstrates the use of relational data modeling and analytical reporting to support data-driven career and workforce insights.
 
-### Option A — pgAdmin
+## Dataset Disclaimer
 
-1. Create a database named `startup_job_market`.
-2. Open Query Tool for that database.
-3. Run `sql/01_schema_and_load.sql` after updating the two CSV file paths to the absolute paths on your computer. PostgreSQL server-side `COPY` reads files from the database server machine. If that is inconvenient, use pgAdmin's Import/Export Data feature for each CSV after creating the tables.
-4. Run `sql/02_data_quality_checks.sql`.
-5. Run `sql/03_business_analysis.sql`.
-6. Run `sql/04_powerbi_views.sql`.
+This project currently uses a **synthetic (simulated) dataset** generated for educational and portfolio purposes.
 
-### Option B — psql
+Company names, job postings, salaries, and dates do not represent actual market observations. The results should not be interpreted as verified Indian startup hiring trends or salary benchmarks.
 
-Create the database, connect to it, then run the scripts in numerical order. Edit the `\copy` paths in `01_schema_and_load.sql` to match your local repository path. `\copy` is a psql client command and reads files from the computer running psql.
+---
 
-## 5. Power BI
-
-Follow `powerbi/dashboard_build_guide.md` to connect Power BI Desktop to PostgreSQL, create the relationship, add measures, and build the dashboard.
-
-Suggested dashboard pages:
-- **Market Overview:** posting count, entry-level share, median salary, most common roles.
-- **Skills Intelligence:** top skills overall and for entry-level roles.
-- **Compensation & Geography:** salary by experience, role, and location; work-mode split.
-
-## 6. Key analysis definitions
-
-- **Entry-level:** Intern, Fresher, or Junior.
-- **Posting count:** count of unique `job_id`, not count of rows after joining skills.
-- **Skill demand:** count of distinct jobs that mention a skill.
-- **Salary:** simulated annual salary in INR LPA. It is not verified compensation data.
-- **Median salary:** median of the salary values in the filtered group; generally more robust than average for skewed salary distributions.
-
-## 7. Portfolio talking points
-
-Explain the project as an analytics workflow rather than claiming it predicts hiring:
-- Designed a normalized relational schema for postings and skills.
-- Used SQL joins, CTEs, conditional aggregation, window functions, and views.
-- Defined entry-level demand and distinct-job skill frequency to avoid join fan-out errors.
-- Built a Power BI dashboard for role, skill, salary, location, and work-mode exploration.
-- Documented data limitations and reproducible setup steps.
-
-## 8. How to make this a real-market project
-
-For a stronger production portfolio version, replace the synthetic CSVs with job postings collected from a source whose terms explicitly permit reuse (for example, an open dataset with a clear license). Record the source URL, access date, license, collection period, and any cleaning steps. Keep the same schema and SQL. Do not scrape websites in ways that violate their terms, and do not imply that synthetic data is real.
-
-## 9. Resume bullet (use only after you have built and understood the dashboard)
-
-**Startup Job Market & Skill Demand Intelligence | PostgreSQL, SQL, Power BI**
-- Built a normalized PostgreSQL analytics model covering 1,200 simulated startup job postings and job-skill relationships to examine role demand, entry-level hiring patterns, and compensation.
-- Used CTEs, joins, window functions, and SQL views to rank in-demand skills, compare salary bands, and segment opportunities by experience, location, and work mode.
-- Developed a Power BI dashboard with market, skills, and compensation views; documented data-quality checks and analytical definitions.
-
-If you replace the synthetic dataset with a licensed real dataset, update the wording and cite the real source accurately.
+**Author:** Sarth Bhausaheb Mali  
+**Technologies:** PostgreSQL | SQL | Power BI  
+**Project Category:** Data Analytics
